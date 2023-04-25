@@ -5,7 +5,7 @@ echo.
 git fetch
 git merge origin/main
 git pull
-# Make changes as necessary
+
 git add .
 git commit -m "%message%"
 git push
