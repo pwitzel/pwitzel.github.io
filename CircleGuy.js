@@ -5,7 +5,7 @@ export default class CircleGuy {
         
         let x = Math.floor(Math.random()*this.game.playerNames.length);
         this.playerName = this.game.playerNames[x]; 
-        this.size = (Math.random() * (45 - 40) + 40) * this.game.currentScale;
+        this.size = (Math.random() * (170 - 160) + 160) * this.game.currentScale;
         this.r = this.size / 2;
         
         this.notDeleted = true;
@@ -105,15 +105,18 @@ export default class CircleGuy {
         let distanceFromTarget = Infinity;
         
         if(this.game.player.deleted == false) {
-            let distX2 = this.x - this.game.player.x;
-            let distY2 = this.y - this.game.player.y;
-            let dist2 = Math.sqrt((distX2*distX2)+(distY2*distY2)); 
-            if(dist2 < distanceFromTarget) {
-                if(this.game.player.r < this.r) {
-                    this.target = this.game.player;
-                    distanceFromTarget = dist2;
+            if(this.game.playerTargettingAllowed) {
+                let distX2 = this.x - this.game.player.x;
+                let distY2 = this.y - this.game.player.y;
+                let dist2 = Math.sqrt((distX2*distX2)+(distY2*distY2)); 
+                if(dist2 < distanceFromTarget) {
+                    if(this.game.player.r < this.r) {
+                        this.target = this.game.player;
+                        distanceFromTarget = dist2;
+                    }
                 }
             }
+            
 
             let distX = this.x - this.game.player.x;
             let distY = this.y - this.game.player.y;
@@ -175,30 +178,42 @@ export default class CircleGuy {
 
     draw(ctx) {
         if(this.r > 0) {
+            let UbuntuB = new FontFace('UbuntuB', 'url(Ubuntu-Bold.ttf)');
+            UbuntuB.load();
             ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
             ctx.fill();
 
-            if(this.target != null && this.game.debugMode) {
+            if(this.game.debugMode) {
+                if(this.target != null) {
             
-                ctx.strokeStyle = this.color;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.target.x, this.target.y);
-                ctx.stroke();   
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.target.x, this.target.y);
+                    ctx.stroke();   
+                }
+
+        
             }
+            
 
             if(this.game.enableNames) {
-                let fontSize = (24 * (this.r*0.03)); 
-                let font = `${fontSize}px Arial`;
+                ctx.fillStyle = "rgb(255,255,255)";
+                ctx.strokeStyle = "rgb(0,0,0)";
+                let fontSize = (10 * (this.r*0.03)); 
+                ctx.lineWidth = 1.5 * (0.038*fontSize);
+                let font = `bold ${fontSize}px UbuntuB`;
                 let text = this.playerName;
                 ctx.font = font;
                 let textWidth = ctx.measureText(text).width;
+                let textHeight = ctx.measureText(text).actualBoundingBoxAscent + ctx.measureText(text).actualBoundingBoxDescent;
                 let centerX = this.x;
         
-                ctx.fillText(text, (centerX - (textWidth/2)), (this.y - this.r) - (20 * this.game.currentScale));
+                ctx.fillText(text, (centerX - (textWidth/2)), this.y + (textHeight/2));
+                ctx.strokeText(text, (centerX - (textWidth/2)), this.y + (textHeight/2));
             }
         }
     }

@@ -13,9 +13,14 @@ export default class Game {
         this.groundFriction = 0.88;
         this.canv = canv;
 
-
+        this.isMobile = /Mobile/.test(navigator.userAgent);
         this.debugMode = false;
         this.enableNames = true;
+        this.playerTargettingAllowed = true;
+
+        if(!this.isMobile) {
+            document.getElementById("touch-controls").style.display = "none";
+        }
 
 
         this.playerNames = ["Blaze Lightning",  "Spike Fury",  "Mystic Shadow",  "Nitro Blaze",  "Max Thunder",  "Ruby Storm",  "Ace Nova",  "Luna Vortex",  "Onyx Inferno",  "Aurora Borealis",  "Phoenix Blaze",  "Viper Venom",  "Jupiter Fury",  "Mars Fireball",  "Neptune Wave",  "Saturn Rings",  "Mercury Swift",  "Pluto Ice",  "Galaxy Blast",  "Cosmo Rocket",  "Comet Crash",  "Nebula Nova",  "Solar Flare",  "Lunar Eclipse",  "Meteor Strike",  "Starlight Shadow",  "Supernova",  "Black Hole",  "Celestial Storm",  "Dragon Blaze",  "Thunderbolt",  "Storm Surge",  "Earthquake",  "Typhoon",  "Tsunami",  "Avalanche",  "Volcano",  "Hurricane",  "Tornado",  "Sandstorm",  "Wildfire",  "Blizzard",  "Cyclone",  "Hailstorm",  "Heatwave",  "Iceberg",  "Lightning Bolt",  "Magma",  "Quicksilver",  "Rainbow",  "Sapphire",  "Emerald",  "Ruby",  "Diamond",  "Topaz",  "Amber",  "Opal",  "Pearl",  "Sapphire",  "Aquamarine",  "Garnet",  "Jade",  "Lapis Lazuli",  "Moonstone",  "Turquoise",  "Sunstone",  "Bloodstone",  "Citrine",  "Peridot",  "Rose Quartz",  "Smoky Quartz",  "Zircon",  "Beryl",  "Alexandrite",  "Andalusite",  "Kunzite",  "Morganite",  "Rhodochrosite",  "Rhodonite",  "Spinel",  "Tanzanite",  "Tourmaline",  "Frost Nova",  "Eclipse",  "Shadow Strike",  "Blaze Wave",  "Phoenix Storm",  "Dragon Fire",  "Thunder Fury",  "Magma Blast",  "Ice Storm",  "Crystal Shard",  "Rising Sun",  "Nightfall",  "Solar Eclipse",  "Galactic Pulse",  "Cosmic Ray",  "Aurora Beam",  "Plasma Blast",  "Gravity Surge",  "Dimension Shift",  "Time Warp"];

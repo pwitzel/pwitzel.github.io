@@ -17,6 +17,12 @@
             top: 0;
             left: 0;
         }
+
+        @font-face {
+            font-family: 'UbuntuB';
+            src: url('Ubuntu-Bold.ttf') format('truetype');
+        }
+
   
         #touch-controls {
             position: absolute;
@@ -36,36 +42,42 @@
         }
         
         #up-button {
+            transform: translate(90px, -75px);
             background-image: url('up-arrow.png');
             background-size: contain;
             background-repeat: no-repeat;
         }
         
         #left-button {
+            transform: translate(-40px, -10px);
             background-image: url('left-arrow.png');
             background-size: contain;
             background-repeat: no-repeat;
         }
         
         #down-button {
+            transform: translate(-46px, -10px);
             background-image: url('down-arrow.png');
             background-size: contain;
             background-repeat: no-repeat;
         }
         
         #right-button {
+            transform: translate(-50px, -10px);
             background-image: url('right-arrow.png');
             background-size: contain;
             background-repeat: no-repeat;
         }
 
         #zoom-in-button {
+            transform: translate(25px, -90px);
             background-image: url('zoom-in.png');
             background-size: contain;
             background-repeat: no-repeat;
         }
         
         #zoom-out-button {
+            transform: translate(-42px, -20px);
             background-image: url('zoom-out.png');
             background-size: contain;
             background-repeat: no-repeat;

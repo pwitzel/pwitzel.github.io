@@ -7,7 +7,7 @@ export default class Player {
         this.canv = canv;
         let x = Math.floor(Math.random()*this.game.playerNames.length);
         this.playerName = this.game.playerNames[x]; 
-        this.size = 41;
+        this.size = (Math.random() * (170 - 160) + 160) * this.game.currentScale;
         this.r = this.size / 2;
         this.x = this.game.gameWidth /2;
         this.y = this.game.gameHeight /2;
@@ -154,27 +154,35 @@ export default class Player {
 
     draw(ctx) {
       if(this.r > 0) {
+        let UbuntuB = new FontFace('UbuntuB', 'url(Ubuntu-Bold.ttf)');
+        UbuntuB.load();
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
         ctx.fill();
 
-        if(this.game.enableNames) {
-          let fontSize = (24 * (this.r*0.03)); 
-          let font = `${fontSize}px Arial`;
-          let text = this.playerName;
-          ctx.font = font;
-          let textWidth = ctx.measureText(text).width;
-          let centerX = this.x;
-  
-          ctx.fillText(text, (centerX - (textWidth/2)), (this.y - this.r) - (20 * this.game.currentScale));
-        }
-
         if(this.game.debugMode) {
+          
           ctx.font = "15px Arial";
           ctx.fillStyle = "rgba(255, 255, 255)";
           ctx.fillText("x: " + this.mouseX, this.mouseX + 15, this.mouseY);
           ctx.fillText("y: " + this.mouseY, this.mouseX + 15, this.mouseY + 15);
+        }
+
+        if(this.game.enableNames) {
+          ctx.fillStyle = "rgb(255,255,255)";
+          ctx.strokeStyle = "rgb(0,0,0)";
+          let fontSize = (10 * (this.r*0.03)); 
+          ctx.lineWidth = 1.5 * (0.038*fontSize);
+          let font = `bold ${fontSize}px UbuntuB`;
+          let text = this.playerName;
+          ctx.font = font;
+          let textWidth = ctx.measureText(text).width;
+          let textHeight = ctx.measureText(text).actualBoundingBoxAscent + ctx.measureText(text).actualBoundingBoxDescent;
+          let centerX = this.x;
+  
+          ctx.fillText(text, (centerX - (textWidth/2)), this.y + (textHeight/2));
+          ctx.strokeText(text, (centerX - (textWidth/2)), this.y + (textHeight/2));
         }
         
       }
