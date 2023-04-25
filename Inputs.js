@@ -68,7 +68,7 @@ export default class Inputs {
         let zoomOut = document.getElementById("zoom-out-button");
         zoomOut.addEventListener("touchstart", (e) => {
           e.preventDefault();
-          this.game.zoomOut();
+          this.game.zoomout();
         });
         zoomOut.addEventListener("touchend", (e) => {
           e.preventDefault();
