@@ -2,7 +2,6 @@ export default class Inputs {
     constructor(game, player) {
       this.game = game;
       this.player = player;
-      this.isMobile = /Mobile/.test(navigator.userAgent);
 
   
       document.addEventListener("keydown", (e) => {
@@ -52,7 +51,7 @@ export default class Inputs {
         this.player.mouseY = e.clientY;
       });
   
-      if(this.isMobile) {
+      if(this.game.isMobile) {
         let upButton = document.getElementById("up-button");
         upButton.addEventListener("touchstart", (e) => {
           e.preventDefault();
@@ -115,6 +114,16 @@ export default class Inputs {
         rightButton.addEventListener("touchend", (e) => {
           e.preventDefault();
           this.player.right = false;
+        });
+
+        let lbToggle = document.getElementById("lb-toggle");
+        lbToggle.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          this.game.lbToggle *= -1;
+        });
+        lbToggle.addEventListener("touchend", (e) => {
+          e.preventDefault();
+          
         });
       }
       

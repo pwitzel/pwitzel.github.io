@@ -2,9 +2,9 @@ import Inputs from "./Inputs.js";
 import Projectile from "./Projectile.js";
 
 export default class Player {
-    constructor(game, canv) {
+    constructor(game) {
         this.game = game;
-        this.canv = canv;
+
         let x = Math.floor(Math.random()*this.game.playerNames.length);
         this.playerName = this.game.playerNames[x]; 
         this.size = (Math.random() * (170 - 160) + 160) * this.game.currentScale;
@@ -179,10 +179,21 @@ export default class Player {
           ctx.font = font;
           let textWidth = ctx.measureText(text).width;
           let textHeight = ctx.measureText(text).actualBoundingBoxAscent + ctx.measureText(text).actualBoundingBoxDescent;
-          let centerX = this.x;
   
-          ctx.fillText(text, (centerX - (textWidth/2)), this.y + (textHeight/2));
-          ctx.strokeText(text, (centerX - (textWidth/2)), this.y + (textHeight/2));
+          ctx.fillText(text, this.x - (textWidth/2), this.y + (textHeight/2));
+          ctx.strokeText(text, this.x - (textWidth/2), this.y + (textHeight/2));
+
+          if(this.game.leaderboard.topFivePlayers[0] == this) {
+            let img = new Image();
+            img.src = "king-icon.png";
+
+            img.onload = () => {
+                let imgWidth = img.naturalWidth;
+                let imgHeight = img.naturalHeight;
+                ctx.drawImage(img, this.x - (imgWidth/2), this.y + this.r + imgHeight + 10);
+                ctx.drawImage(img, 0, 0);
+            }
+          }
         }
         
       }

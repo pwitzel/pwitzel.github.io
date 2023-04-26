@@ -5,6 +5,7 @@ import Projectile from "./Projectile.js";
 import Food from "./Food.js";
 import FoodSpawner from "./FoodSpawner.js";
 import Spawner from "./Spawner.js";
+import Leaderboard from "./Leaderboard.js";
 
 export default class Game {
     constructor(WIDTH, HEIGHT, canv) {
@@ -17,6 +18,7 @@ export default class Game {
         this.debugMode = false;
         this.enableNames = true;
         this.playerTargettingAllowed = true;
+        this.lbToggle = 1;
 
         if(!this.isMobile) {
             document.getElementById("touch-controls").style.display = "none";
@@ -31,9 +33,10 @@ export default class Game {
         this.currentScale = 1;
         this.projectiles = [];
         this.food = [];
-        this.player = new Player(this, this.canv);
+        this.player = new Player(this);
         this.foodspawner = new FoodSpawner(this);
-        this.spawner = new Spawner(this, this.canv);
+        this.spawner = new Spawner(this);
+        this.leaderboard = new Leaderboard(this);
 
         
     }
@@ -162,6 +165,7 @@ export default class Game {
 
         this.foodspawner.update();
         this.spawner.update();
+        this.leaderboard.update();
     }
 
     draw(ctx) {
@@ -186,7 +190,7 @@ export default class Game {
             this.player.draw(ctx);
         }
         
-        
-        
+        this.leaderboard.draw(ctx);
+     
     }
 }
