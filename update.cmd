@@ -3,6 +3,7 @@ echo Commit message:
 set /p message=
 echo.
 
+git pull
 
 git add .
 git commit -m "%message%"
