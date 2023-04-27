@@ -46,9 +46,12 @@ export default class Food {
     draw(ctx) {
         if(this.r > 0) {
             ctx.fillStyle = this.color;
+            ctx.strokeStyle = "rgb(0,0,0)";
+            ctx.lineWidth = 0.025 * this.r;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
             ctx.fill();
+            ctx.stroke();
         }
     }
 }

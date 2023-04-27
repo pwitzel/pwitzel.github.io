@@ -1,11 +1,9 @@
-import CircleGuy from "./CircleGuy.js";
 import Player from "./Player.js";
 import TileMap from "./TileMap.js";
-import Projectile from "./Projectile.js";
-import Food from "./Food.js";
 import FoodSpawner from "./FoodSpawner.js";
 import Spawner from "./Spawner.js";
 import Leaderboard from "./Leaderboard.js";
+import Spike from "./Spike.js";
 
 export default class Game {
     constructor(WIDTH, HEIGHT, canv) {
@@ -19,6 +17,7 @@ export default class Game {
         this.enableNames = true;
         this.playerTargettingAllowed = true;
         this.lbToggle = 1;
+        this.maxSpikes = 10;
 
         if(!this.isMobile) {
             document.getElementById("touch-controls").style.display = "none";
@@ -37,6 +36,12 @@ export default class Game {
         this.foodspawner = new FoodSpawner(this);
         this.spawner = new Spawner(this);
         this.leaderboard = new Leaderboard(this);
+        this.spikes = [];
+
+        for(let i = 0; i < this.maxSpikes; i++) {
+            let spike = new Spike(this);
+            this.spikes.push(spike);
+        }
 
         
     }
@@ -78,6 +83,12 @@ export default class Game {
             p.size *= zoomFactor;
             p.dx *= zoomFactor;
             p.dy *= zoomFactor
+        });
+        this.spikes.forEach((s) => {
+            s.size *= zoomFactor;
+            s.x *= zoomFactor;
+            s.y *= zoomFactor
+            s.x += diffX; s.y += diffY;
         });
 
         this.tilemap.size = this.tilemap.size * zoomFactor;
@@ -128,6 +139,12 @@ export default class Game {
             p.dx *= zoomFactor;
             p.dy *= zoomFactor
         });
+        this.spikes.forEach((s) => {
+            s.size *= zoomFactor;
+            s.x *= zoomFactor;
+            s.y *= zoomFactor
+            s.x += diffX; s.y += diffY;
+        });
 
         this.tilemap.size = this.tilemap.size * zoomFactor;
         this.tilemap.x *= zoomFactor;
@@ -157,7 +174,9 @@ export default class Game {
 
         this.player.update();
 
-      
+        this.spikes.forEach((s) => {
+            s.update();
+        });
 
         this.circles = this.circles.filter((c) => c.notDeleted);
         this.projectiles = this.projectiles.filter((p) => p.notDeleted);
@@ -166,6 +185,7 @@ export default class Game {
         this.foodspawner.update();
         this.spawner.update();
         this.leaderboard.update();
+    
     }
 
     draw(ctx) {
@@ -189,6 +209,10 @@ export default class Game {
         if(this.player.deleted == false) {
             this.player.draw(ctx);
         }
+
+        this.spikes.forEach((s) => {
+            s.draw(ctx);
+        });
         
         this.leaderboard.draw(ctx);
      

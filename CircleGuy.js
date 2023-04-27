@@ -180,9 +180,12 @@ export default class CircleGuy {
             let UbuntuB = new FontFace('UbuntuB', 'url(Ubuntu-Bold.ttf)');
             UbuntuB.load();
             ctx.fillStyle = this.color;
+            ctx.strokeStyle = "rgb(0,0,0)";
+            ctx.lineWidth = 0.025 * this.r;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
             ctx.fill();
+            ctx.stroke();
 
             if(this.game.debugMode) {
                 if(this.target != null) {

@@ -5,8 +5,14 @@ export default class Leaderboard {
     }
 
     update() {
-        this.topFivePlayers = [...this.game.circles, this.game.player];
-        this.topFivePlayers.sort((a, b) => b.r - a.r);
+        if(this.game.player.deleted) {
+            this.topFivePlayers = [...this.game.circles];
+            this.topFivePlayers.sort((a, b) => b.r - a.r);
+        } else if(!this.game.player.deleted) {
+            this.topFivePlayers = [...this.game.circles, this.game.player];
+            this.topFivePlayers.sort((a, b) => b.r - a.r);
+        }
+        
     }
 
     draw(ctx) {
@@ -23,16 +29,41 @@ export default class Leaderboard {
             
             for(let i = 0; i < 5; i++) {
                 
+                
                 try {
+                    if(this.topFivePlayers[i] == this.game.player) {
+                        ctx.fillStyle = this.game.player.color;
+                    } else if(this.topFivePlayers[i] != this.game.player) {
+                        ctx.fillStyle = this.topFivePlayers[i].color;
+                    }
                     ctx.fillText((i+1) + ". " + this.topFivePlayers[i].playerName + ": " + Math.floor(this.topFivePlayers[i].r/this.game.currentScale), 25, (i * 50) + 50);
                     ctx.strokeText((i+1) + ". " + this.topFivePlayers[i].playerName + ": " + Math.floor(this.topFivePlayers[i].r/this.game.currentScale), 25, (i * 50) + 50);
                 } catch (error) {
+                    ctx.fillStyle = "rgb(255,255,255)";
                     
                     ctx.fillText((i+1) + ". : ", 25, (i * 50) + 50);
                     ctx.strokeText((i+1) + ". : ", 25, (i * 50) + 50);
                     console.log("Error: " + error + " player (AI) data not retrieved, (undefined/not initialized). Problem catched. Next draw loop nulls the error.");
                 }
             }
+
+            if(this.game.player.deleted == false) {
+                let index = this.topFivePlayers.indexOf(this.game.player)
+                ctx.fillStyle = "rgb(150,150,150)";
+
+                if(index+1 > 5) {
+                    try {
+                        ctx.fillText((index+1) + ". " + this.topFivePlayers[index].playerName + ": " + Math.floor(this.topFivePlayers[index].r/this.game.currentScale), 25, (6 * 50) + 50);
+                        ctx.strokeText((index+1) + ". " + this.topFivePlayers[index].playerName + ": " + Math.floor(this.topFivePlayers[index].r/this.game.currentScale), 25, (6 * 50) + 50);
+                    } catch (error) {
+                        
+                        ctx.fillText((index+1) + ". : ", 25, (6 * 50) + 50);
+                        ctx.strokeText((index+1) + ". : ", 25, (6 * 50) + 50);
+                        console.log("Error: " + error + " player (AI) data not retrieved, (undefined/not initialized). Problem catched. Next draw loop nulls the error.");
+                    }
+                }
+            }
+            
         } else if(this.game.lbToggle == -1) {
             
         }

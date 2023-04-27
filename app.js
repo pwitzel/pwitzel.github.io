@@ -13,7 +13,7 @@ var game = new Game(WIDTH, HEIGHT, canv);
 
 
 function gameLoop() {
-    ctx.fillStyle = "rgb(50, 50, 50)";
+    ctx.fillStyle = "rgb(100, 100, 100)";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     game.update();

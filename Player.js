@@ -113,6 +113,10 @@ export default class Player {
                 f.x -= (1/Math.sqrt(2)) * this.dx;
                 f.y -= (1/Math.sqrt(2)) * this.dy;
             });
+            this.game.spikes.forEach((s)=> {
+              s.x -= (1/Math.sqrt(2)) * this.dx;
+              s.y -= (1/Math.sqrt(2)) * this.dy;
+            });
       
             this.game.tilemap.x -= (1/Math.sqrt(2)) * this.dx;
             this.game.tilemap.y -= (1/Math.sqrt(2)) * this.dy;
@@ -127,6 +131,9 @@ export default class Player {
             this.game.food.forEach((f)=> {
                 f.x -= this.dx; f.y -=this.dy;
                 
+            });
+            this.game.spikes.forEach((s)=> {
+              s.x -= this.dx; s.y -=this.dy;
             });
             this.game.tilemap.x -= this.dx;
             this.game.tilemap.y -= this.dy;
@@ -157,9 +164,12 @@ export default class Player {
         let UbuntuB = new FontFace('UbuntuB', 'url(Ubuntu-Bold.ttf)');
         UbuntuB.load();
         ctx.fillStyle = this.color;
+        ctx.strokeStyle = "rgb(0,0,0)";
+        ctx.lineWidth = 0.025 * this.r;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
         ctx.fill();
+        ctx.stroke();
 
         if(this.game.debugMode) {
           
