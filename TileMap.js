@@ -1,11 +1,19 @@
 export default class TileMap {
-    constructor() {
+    constructor(game) {
+        this.game = game;
+        
         this.tiles = [];
         this.x = 0;
         this.y = 0;
         this.size = 150;
-        this.maxTilesX = 50;
-        this.maxTilesY = 50;
+        if(!this.game.smallMap) {
+            this.maxTilesX = 50;
+            this.maxTilesY = 50;
+        } else if(this.game.smallMap) {
+            this.maxTilesX = 10;
+            this.maxTilesY = 10;
+        }
+        
         for(let i = 0; i < this.maxTilesY; i++) {
             for(let j = 0; j < this.maxTilesX; j++) {
                 let tile = {
@@ -42,14 +50,25 @@ export default class TileMap {
             }
         }
     
-        if(this.size/2 > 0) {
-            this.tiles.forEach((t) => {          
-                ctx.beginPath();
-                ctx.lineWidth = "1";
-                ctx.rect(this.x + t.x, this.y + t.y, this.size, this.size);
-                ctx.stroke();
-            });
+        if(this.game.lowGraphics == false) {
+            if(this.size/2 > 0) {
+                this.tiles.forEach((t) => {  
+                    
+                    ctx.beginPath();
+                    ctx.lineWidth = "1";
+                    ctx.rect(this.x + t.x, this.y + t.y, this.size, this.size);
+                    ctx.stroke();
+                        
+                    
+                });
+            }
+        } else if(this.game.lowGraphics == true) {
+            ctx.beginPath();
+            ctx.lineWidth = "1";
+            ctx.rect(this.x, this.y, this.mapWidth, this.mapHeight);
+            ctx.stroke();
         }
+        
     }
     
     

@@ -3,7 +3,12 @@ import Food from "./Food.js";
 export default class FoodSpawner {
     constructor(game) {
         this.game = game;
-        this.maxFood = 150;
+        if(!this.game.smallMap) {
+            this.maxFood = 150;
+        } else if(this.game.smallMap) {
+            this.maxFood = 50;
+        }
+        
         this.spawnDelay = 10000;
         this.spawnTimer = Date.now();
 

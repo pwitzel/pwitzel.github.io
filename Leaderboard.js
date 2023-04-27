@@ -20,12 +20,14 @@ export default class Leaderboard {
             let UbuntuB = new FontFace('UbuntuB', 'url(Ubuntu-Bold.ttf)');
             UbuntuB.load();
     
-            ctx.fillStyle = "rgb(255,255,255)";
+            ctx.fillStyle = "rgb(150,150,150)";
             ctx.strokeStyle = "rgb(0,0,0)";
             let fontSize = 25; 
             ctx.lineWidth = 1.5 * (0.038*fontSize);
             let font = `bold ${fontSize}px UbuntuB`;
             ctx.font = font;
+            ctx.fillText("[" + this.topFivePlayers.length + " players]", 25, (7 * 50) + 50);
+            ctx.strokeText("[" + this.topFivePlayers.length + " players]", 25, (7 * 50) + 50);
             
             for(let i = 0; i < 5; i++) {
                 

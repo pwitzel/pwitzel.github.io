@@ -7,27 +7,39 @@ import Spike from "./Spike.js";
 
 export default class Game {
     constructor(WIDTH, HEIGHT, canv) {
+        //Game setting
         this.gameWidth = WIDTH;
         this.gameHeight = HEIGHT;
-        this.groundFriction = 0.88;
         this.canv = canv;
 
+        //Mobile authenticator
         this.isMobile = /Mobile/.test(navigator.userAgent);
-        this.debugMode = false;
-        this.enableNames = true;
-        this.playerTargettingAllowed = true;
-        this.lbToggle = 1;
-        this.maxSpikes = 10;
-
         if(!this.isMobile) {
             document.getElementById("touch-controls").style.display = "none";
         }
 
+        //Experimental values
+        this.groundFriction = 0.88;
+        this.debugMode = false;
+        this.enableNames = true;
+        this.playerTargettingAllowed = true;
+        this.lbToggle = 1;
+        this.lowGraphics = false;
+        this.smallMap = false;
+        this.invincible = false;
+        if(!this.smallMap) {
+            this.maxSpikes = 10;
+        } else if(this.smallMap) {
+            this.maxSpikes = 1;
+        }
+        
 
+        //Player names
         this.playerNames = ["Blaze Lightning",  "Spike Fury",  "Mystic Shadow",  "Nitro Blaze",  "Max Thunder",  "Ruby Storm",  "Ace Nova",  "Luna Vortex",  "Onyx Inferno",  "Aurora Borealis",  "Phoenix Blaze",  "Viper Venom",  "Jupiter Fury",  "Mars Fireball",  "Neptune Wave",  "Saturn Rings",  "Mercury Swift",  "Pluto Ice",  "Galaxy Blast",  "Cosmo Rocket",  "Comet Crash",  "Nebula Nova",  "Solar Flare",  "Lunar Eclipse",  "Meteor Strike",  "Starlight Shadow",  "Supernova",  "Black Hole",  "Celestial Storm",  "Dragon Blaze",  "Thunderbolt",  "Storm Surge",  "Earthquake",  "Typhoon",  "Tsunami",  "Avalanche",  "Volcano",  "Hurricane",  "Tornado",  "Sandstorm",  "Wildfire",  "Blizzard",  "Cyclone",  "Hailstorm",  "Heatwave",  "Iceberg",  "Lightning Bolt",  "Magma",  "Quicksilver",  "Rainbow",  "Sapphire",  "Emerald",  "Ruby",  "Diamond",  "Topaz",  "Amber",  "Opal",  "Pearl",  "Sapphire",  "Aquamarine",  "Garnet",  "Jade",  "Lapis Lazuli",  "Moonstone",  "Turquoise",  "Sunstone",  "Bloodstone",  "Citrine",  "Peridot",  "Rose Quartz",  "Smoky Quartz",  "Zircon",  "Beryl",  "Alexandrite",  "Andalusite",  "Kunzite",  "Morganite",  "Rhodochrosite",  "Rhodonite",  "Spinel",  "Tanzanite",  "Tourmaline",  "Frost Nova",  "Eclipse",  "Shadow Strike",  "Blaze Wave",  "Phoenix Storm",  "Dragon Fire",  "Thunder Fury",  "Magma Blast",  "Ice Storm",  "Crystal Shard",  "Rising Sun",  "Nightfall",  "Solar Eclipse",  "Galactic Pulse",  "Cosmic Ray",  "Aurora Beam",  "Plasma Blast",  "Gravity Surge",  "Dimension Shift",  "Time Warp"];
         
-        this.tilemap = new TileMap();
 
+        //Main game objects and parts
+        this.tilemap = new TileMap(this);
         this.circles = []; 
         this.currentScale = 1;
         this.projectiles = [];
@@ -37,7 +49,6 @@ export default class Game {
         this.spawner = new Spawner(this);
         this.leaderboard = new Leaderboard(this);
         this.spikes = [];
-
         for(let i = 0; i < this.maxSpikes; i++) {
             let spike = new Spike(this);
             this.spikes.push(spike);
@@ -46,6 +57,7 @@ export default class Game {
         
     }
 
+    //Zooming in and out functions
     zoomin() {
         let zScale = 0.1;
         let zoomFactor = 1.1;
@@ -155,10 +167,10 @@ export default class Game {
 
     
 
+    //Main game loop
     update() {
         
-        
-        
+        //Update every main game piece and object
         this.food.forEach((f) => {
             f.update();
         });
@@ -188,6 +200,7 @@ export default class Game {
     
     }
 
+    //Draw all of the objects
     draw(ctx) {
 
         this.tilemap.draw(ctx);
@@ -205,10 +218,8 @@ export default class Game {
             c.draw(ctx);
         })
         
-
-        if(this.player.deleted == false) {
-            this.player.draw(ctx);
-        }
+        this.player.draw(ctx);
+       
 
         this.spikes.forEach((s) => {
             s.draw(ctx);

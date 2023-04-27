@@ -47,6 +47,7 @@ export default class Player {
  
 
     update() { 
+
           this.r = this.size/2;
 
           if(this.dx > this.speed) {
@@ -77,24 +78,27 @@ export default class Player {
           }
 
 
+          if(this.deleted == false) {
+            if(this.x - this.r <= this.game.tilemap.x) {
+              this.dx = -this.dx;
+              
+            }
+            if(this.x + this.r >= this.game.tilemap.x + this.game.tilemap.mapWidth) {
+              this.dx = -this.dx;
+              
+            }
+            if(this.y - this.r <= this.game.tilemap.y) {
+              this.dy = -this.dy;
+              
+              
+            }
+            if(this.y + this.r >= this.game.tilemap.y + this.game.tilemap.mapHeight) {
+              this.dy = -this.dy;
+              
+            }
+          }
 
-          if(this.x - this.r <= this.game.tilemap.x) {
-            this.dx = -this.dx;
-            
-          }
-          if(this.x + this.r >= this.game.tilemap.x + this.game.tilemap.mapWidth) {
-            this.dx = -this.dx;
-            
-          }
-          if(this.y - this.r <= this.game.tilemap.y) {
-            this.dy = -this.dy;
-            
-            
-          }
-          if(this.y + this.r >= this.game.tilemap.y + this.game.tilemap.mapHeight) {
-            this.dy = -this.dy;
-            
-          }
+          
 
 
       
@@ -154,6 +158,9 @@ export default class Player {
             
        }
 
+       if(this.game.invincible) {
+        this.deleted = false
+       }
 
     }
 
@@ -161,51 +168,58 @@ export default class Player {
 
     draw(ctx) {
       if(this.r > 0) {
-        let UbuntuB = new FontFace('UbuntuB', 'url(Ubuntu-Bold.ttf)');
-        UbuntuB.load();
-        ctx.fillStyle = this.color;
-        ctx.strokeStyle = "rgb(0,0,0)";
-        ctx.lineWidth = 0.025 * this.r;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
-        ctx.fill();
-        ctx.stroke();
-
-        if(this.game.debugMode) {
-          
-          ctx.font = "15px Arial";
-          ctx.fillStyle = "rgba(255, 255, 255)";
-          ctx.fillText("x: " + this.mouseX, this.mouseX + 15, this.mouseY);
-          ctx.fillText("y: " + this.mouseY, this.mouseX + 15, this.mouseY + 15);
-        }
-
-        if(this.game.enableNames) {
-          ctx.fillStyle = "rgb(255,255,255)";
+        if(this.deleted == false) {
+          let UbuntuB = new FontFace('UbuntuB', 'url(Ubuntu-Bold.ttf)');
+          UbuntuB.load();
+          ctx.fillStyle = this.color;
           ctx.strokeStyle = "rgb(0,0,0)";
-          let fontSize = (10 * (this.r*0.03)); 
-          ctx.lineWidth = 1.5 * (0.038*fontSize);
-          let font = `bold ${fontSize}px UbuntuB`;
-          let text = this.playerName;
-          ctx.font = font;
-          let textWidth = ctx.measureText(text).width;
-          let textHeight = ctx.measureText(text).actualBoundingBoxAscent + ctx.measureText(text).actualBoundingBoxDescent;
+          ctx.lineWidth = 0.025 * this.r;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
+          ctx.fill();
+          ctx.stroke();
+
+          if(this.game.enableNames) {
+            ctx.fillStyle = "rgb(255,255,255)";
+            ctx.strokeStyle = "rgb(0,0,0)";
+            let fontSize = (10 * (this.r*0.03)); 
+            ctx.lineWidth = 1.5 * (0.038*fontSize);
+            let font = `bold ${fontSize}px UbuntuB`;
+            let text = this.playerName;
+            ctx.font = font;
+            let textWidth = ctx.measureText(text).width;
+            let textHeight = ctx.measureText(text).actualBoundingBoxAscent + ctx.measureText(text).actualBoundingBoxDescent;
+    
+            ctx.fillText(text, this.x - (textWidth/2), this.y + (textHeight/2));
+            ctx.strokeText(text, this.x - (textWidth/2), this.y + (textHeight/2));
   
-          ctx.fillText(text, this.x - (textWidth/2), this.y + (textHeight/2));
-          ctx.strokeText(text, this.x - (textWidth/2), this.y + (textHeight/2));
-
-          if(this.game.leaderboard.topFivePlayers[0] == this) {
-            let img = new Image();
-            img.src = "king-icon.png";
-
-            img.onload = () => {
-                let imgWidth = img.naturalWidth;
-                let imgHeight = img.naturalHeight;
-                ctx.drawImage(img, this.x - (imgWidth/2), this.y + this.r + imgHeight + 10);
-                ctx.drawImage(img, 0, 0);
+            if(this.game.leaderboard.topFivePlayers[0] == this) {
+              let img = new Image();
+              img.src = "king-icon.png";
+  
+              img.onload = () => {
+                  let imgWidth = img.naturalWidth;
+                  let imgHeight = img.naturalHeight;
+                  ctx.drawImage(img, this.x - (imgWidth/2), this.y + this.r + imgHeight + 10);
+                  ctx.drawImage(img, 0, 0);
+              }
             }
           }
         }
         
+
+        
+
+        
+        
+      }
+
+      if(this.game.debugMode) {
+          
+        ctx.font = "15px Arial";
+        ctx.fillStyle = "rgba(255, 255, 255)";
+        ctx.fillText("x: " + this.mouseX, this.mouseX + 15, this.mouseY);
+        ctx.fillText("y: " + this.mouseY, this.mouseX + 15, this.mouseY + 15);
       }
     }
 }

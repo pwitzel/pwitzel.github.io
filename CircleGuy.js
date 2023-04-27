@@ -123,8 +123,11 @@ export default class CircleGuy {
             if(dist <= this.r + this.game.player.r) {
                 let newR = Math.sqrt((this.r*this.r)+(this.game.player.r*this.game.player.r));
                 if(this.r > this.game.player.r) {
-                    this.game.player.deleted = true;
-                    this.size = newR * 2;
+                    if(!this.game.invincible) {
+                        this.game.player.deleted = true;
+                        this.size = newR * 2;
+                    }
+                    
                 }
                 if(this.r < this.game.player.r) {
                     this.game.player.size = newR * 2;
