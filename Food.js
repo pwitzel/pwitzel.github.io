@@ -2,7 +2,7 @@ export default class Food {
     constructor(game) {
         this.game = game;
         this.notDeleted = true;
-        this.size = (Math.random() * (30 - 20) + 20) * this.game.currentScale;
+        this.size = (Math.random() * (60 - 40) + 40) * this.game.currentScale;
         this.r = this.size/2;
         let r = Math.random() * 255;
         let g = Math.random() * 255;

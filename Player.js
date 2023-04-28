@@ -25,6 +25,7 @@ export default class Player {
         this.down = false;
         this.left = false;
         this.accelBounds = 0.03;
+       
         
         this.shooting = false;
 

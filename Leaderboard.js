@@ -45,7 +45,7 @@ export default class Leaderboard {
                     
                     ctx.fillText((i+1) + ". : ", 25, (i * 50) + 50);
                     ctx.strokeText((i+1) + ". : ", 25, (i * 50) + 50);
-                    console.log("Error: " + error + " player (AI) data not retrieved, (undefined/not initialized). Problem catched. Next draw loop nulls the error.");
+                    
                 }
             }
 
@@ -61,7 +61,7 @@ export default class Leaderboard {
                         
                         ctx.fillText((index+1) + ". : ", 25, (6 * 50) + 50);
                         ctx.strokeText((index+1) + ". : ", 25, (6 * 50) + 50);
-                        console.log("Error: " + error + " player (AI) data not retrieved, (undefined/not initialized). Problem catched. Next draw loop nulls the error.");
+                       
                     }
                 }
             }

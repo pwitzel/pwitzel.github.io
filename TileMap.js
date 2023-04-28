@@ -50,7 +50,7 @@ export default class TileMap {
             }
         }
     
-        if(this.game.lowGraphics == false) {
+        if(this.game.noLOD == false) {
             if(this.size/2 > 0) {
                 this.tiles.forEach((t) => {  
                     
@@ -62,7 +62,7 @@ export default class TileMap {
                     
                 });
             }
-        } else if(this.game.lowGraphics == true) {
+        } else if(this.game.noLOD == true) {
             ctx.beginPath();
             ctx.lineWidth = "1";
             ctx.rect(this.x, this.y, this.mapWidth, this.mapHeight);

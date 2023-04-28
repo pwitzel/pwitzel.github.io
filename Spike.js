@@ -1,7 +1,7 @@
 export default class Spike {
     constructor(game) {
         this.game = game;
-        this.size = 450 * this.game.currentScale;
+        this.size = 550 * this.game.currentScale;
         this.r = this.size/2;
 
         let randX = Math.random() * (((this.game.tilemap.x + this.game.tilemap.mapWidth) - this.r) - (this.game.tilemap.x + this.r)) + (this.game.tilemap.x + this.r);
@@ -24,7 +24,10 @@ export default class Spike {
                 if(this.r < e.r) {
                     if(this.game.player.deleted == false) {
                         if(e == this.game.player) {
-                            this.game.player.deleted = true;
+                            if(!this.game.invincible) {
+                                this.game.player.deleted = true;
+                            }
+                            
                         } else if(e != this.game.player) {
                             e.notDeleted = false;
                         }

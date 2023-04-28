@@ -24,13 +24,17 @@ export default class Game {
         this.enableNames = true;
         this.playerTargettingAllowed = true;
         this.lbToggle = 1;
-        this.lowGraphics = false;
+        this.noLOD = false;
         this.smallMap = false;
         this.invincible = false;
+        this.SBAA = true;
         if(!this.smallMap) {
-            this.maxSpikes = 10;
+            this.maxSpikes = 3;
         } else if(this.smallMap) {
             this.maxSpikes = 1;
+        }
+        if(this.SBAA) {
+            this.canv.getContext("2d").imageSmoothingEnabled = true;
         }
         
 
